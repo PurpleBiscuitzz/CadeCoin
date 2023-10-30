@@ -1,0 +1,46 @@
+
+    Print the name of the cryptocurrency (CadeCoin). There are no additional command line parameters to this function.
+        Example usages: java CMoney name and python3 cmoney.py name
+        Example output: CadeCoin
+
+
+    Create the genesis block (genesis): this is the initial block in the block chain, and the block should always be the same.
+        Example usages: java CMoney genesis and python3 cmoney.py genesis
+        Example output: Genesis block created in 'block_0.txt'
+
+
+    Generate a wallet (generate): this will create RSA public/private key set. The file name to save the wallet to will be provided as an additional command line parameter.
+        Example usages: java CMoney generate alice.wallet.txt and python3 cmoney.py generate alice.wallet.txt
+        Example output: New wallet generated in 'alice.wallet.txt' with tag e1f3ec14abcb45da
+
+    Get wallet tag (address): this will print out the tag of the public key for a given wallet, which is likely the first 16 (or so) characters of the SHA-256 hash of the public key.
+        Example usages: java CMoney address alice.wallet.txt and python3 cmoney.py address alice.wallet.txt
+        Example output: e1f3ec14abcb45da
+
+    Fund wallets (fund): this allows us to add as much money as we want to a wallet.
+        Example usages: java CMoney fund <taga> 100 01-alice-funding.txt and python3 cmoney.py fund <taga> 100 01-alice-funding.txt
+            In this example, <taga> is the result of the address command, above, for Alice’s wallet
+        Example output: Funded wallet d96b71971fbeec39 with 100 CadeCoin on Tue Apr 02 23:09:00 EDT 2019
+
+    Transfer funds (transfer): this is how we pay with our cryptocurrency. It will be provided with four additional command line parameters: the source wallet file name (not the address!), the destination wallet tag (not the file name!), the amount to transfer, and the file name to save the transaction statement to.
+        Example usages: java CMoney transfer alice.wallet.txt <tagb> 12 03-alice-to-bob.txt and python3 cmoney.py transfer alice.wallet.txt <tagb> 12 03-alice-to-bob.txt
+            In this example, <tagb> would be the result of the address command, above, for Bob’s wallet
+        Example output: Transferred 12 from alice.wallet.txt to d96b71971fbeec39 and the statement to '03-alice-to-bob.txt' on Tue Apr 02 23:09:00 EDT 2019
+
+    Check a balance (balance): based on the transactions in the block chain AND ALSO in the mempool, computes the balance for the provided wallet.
+        Example usages: java CMoney balance <taga> and python3 cmoney.py balance <taga>
+            In this example, <taga> is the result of the address command, above, for Alice’s wallet
+        Example output: 90 – this should print NOTHING ELSE other than the (integer) balance
+
+    Verify a transaction (verify): verify that a given transaction statement is valid, which will require checking the signature and the availability of funds.
+        Example usages: java CMoney verify bob.wallet.txt 04-bob-to-alice.txt and python3 cmoney.py verify bob.wallet.txt 04-bob-to-alice.txt
+        Example output: The transaction in file '04-bob-to-alice.txt' with wallet 'bob.wallet.txt' is valid, and was written to the mempool
+
+    Create and mine the block (mine): this will form another block in the blockchain. The mempool will be emptied of transaction lines, as they will all go into the current block being computed. A nonce will be computed to ensure the hash is below a given value.
+        Example usages: java CMoney mine 2 and python3 cmoney.py mine 2
+        Example output: Mempool transactions moved to block_1.txt and mined with difficulty 2 and nonce 1029
+            
+
+    Validate the blockchain (validate): this should go through the entire block chain, validating each block. The chain can only be valid if a genesis block exists
+        Example usages: java CMoney validate and python3 cmoney.py validate
+        Example output: True or False
